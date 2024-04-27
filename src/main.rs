@@ -2,7 +2,7 @@ use iced::highlighter::{self, Highlighter};
 use iced::widget::{
     button, column, container, horizontal_space, pick_list, row, text, text_editor, tooltip,
 };
-use iced::{executor, theme};
+use iced::{executor, keyboard, theme};
 use iced::{Application, Command, Element, Font, Length, Settings, Theme};
 use std::io;
 use std::path::{Path, PathBuf};
@@ -113,6 +113,13 @@ impl Application for Editor {
                 Command::none()
             }
         }
+    }
+
+    fn subscription(&self) -> iced::Subscription<Message> {
+        keyboard::on_key_press(|key_code, modifiers| match key_code {
+            keyboard::KeyCode::S if modifiers.command() => Some(Message::Save),
+            _ => None,
+        })
     }
 
     fn view(&self) -> Element<'_, Message> {
