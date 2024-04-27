@@ -1,5 +1,7 @@
 use iced::highlighter::{self, Highlighter};
-use iced::widget::{button, column, container, horizontal_space, row, text, text_editor, tooltip};
+use iced::widget::{
+    button, column, container, horizontal_space, pick_list, row, text, text_editor, tooltip,
+};
 use iced::{executor, theme};
 use iced::{Application, Command, Element, Font, Length, Settings, Theme};
 use std::io;
@@ -20,6 +22,7 @@ struct Editor {
     path: Option<PathBuf>,
     content: text_editor::Content,
     error: Option<Error>,
+    theme: highlighter::Theme,
 }
 
 #[derive(Debug, Clone)]
@@ -30,6 +33,7 @@ enum Message {
     FileOpened(Result<(PathBuf, Arc<String>), Error>),
     Save,
     FileSaved(Result<PathBuf, Error>),
+    ThemeSelected(highlighter::Theme),
 }
 
 impl Application for Editor {
@@ -44,6 +48,7 @@ impl Application for Editor {
                 path: None,
                 content: text_editor::Content::new(),
                 error: None,
+                theme: highlighter::Theme::SolarizedDark,
             },
             Command::perform(load_file(default_file()), Message::FileOpened),
         )
@@ -93,6 +98,11 @@ impl Application for Editor {
 
                 Command::none()
             }
+            Message::ThemeSelected(theme) => {
+                self.theme = theme;
+
+                Command::none()
+            }
         }
     }
 
@@ -100,7 +110,13 @@ impl Application for Editor {
         let controls = row![
             action(new_icon(), "New file", Message::New),
             action(open_icon(), "Open file", Message::Open),
-            action(save_icon(), "Save file", Message::Save)
+            action(save_icon(), "Save file", Message::Save),
+            horizontal_space(Length::Fill),
+            pick_list(
+                highlighter::Theme::ALL,
+                Some(self.theme),
+                Message::ThemeSelected
+            )
         ]
         .spacing(10);
 
@@ -108,7 +124,7 @@ impl Application for Editor {
             .on_edit(Message::Edit)
             .highlight::<Highlighter>(
                 highlighter::Settings {
-                    theme: highlighter::Theme::SolarizedDark,
+                    theme: self.theme,
 
                     extension: self
                         .path
