@@ -14,8 +14,19 @@ Gooey Editor is a lightweight text editor written in Rust, leveraging the power 
 
 ## Installation
 
-To install Gooey Editor, ensure you have Rust and Cargo installed on your system. Then, clone the repository and run `cargo run --release`.
+### Windows
 
+1. Download the latest release of Gooey Editor from the [Releases](link-to-releases-page) page.
+2. Extract the downloaded ZIP file.
+3. Navigate to the extracted folder.
+4. Double-click on the `gooeyeditor.exe` file to run the application.
+
+### Other Platforms
+
+To install Gooey Editor on other platforms, ensure you have Rust and Cargo installed on your system. Then, clone the repository and run
+```bash
+cargo run --release
+```
 ## Usage
 
 Gooey Editor offers a simple and intuitive interface for text editing. Here are some key shortcuts to get you started:
