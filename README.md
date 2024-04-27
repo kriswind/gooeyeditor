@@ -16,7 +16,7 @@ Gooey Editor is a lightweight text editor written in Rust, leveraging the power 
 
 ### Windows
 
-1. Download the latest release of Gooey Editor from the [Releases](link-to-releases-page) page.
+1. Download the latest release of Gooey Editor from the [Releases](https://github.com/kriswind/gooeyeditor/releases/latest) page.
 2. Extract the downloaded ZIP file.
 3. Navigate to the extracted folder.
 4. Double-click on the `gooeyeditor.exe` file to run the application.
