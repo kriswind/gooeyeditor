@@ -118,17 +118,19 @@ impl Application for Editor {
     fn subscription(&self) -> iced::Subscription<Message> {
         keyboard::on_key_press(|key_code, modifiers| match key_code {
             keyboard::KeyCode::S if modifiers.command() => Some(Message::Save),
+            keyboard::KeyCode::N if modifiers.command() => Some(Message::New),
+            keyboard::KeyCode::O if modifiers.command() => Some(Message::Open),
             _ => None,
         })
     }
 
     fn view(&self) -> Element<'_, Message> {
         let controls = row![
-            action(new_icon(), "New file", Some(Message::New)),
-            action(open_icon(), "Open file", Some(Message::Open)),
+            action(new_icon(), "New file <Ctrl+N>", Some(Message::New)),
+            action(open_icon(), "Open file <Ctrl+O>", Some(Message::Open)),
             action(
                 save_icon(),
-                "Save file",
+                "Save file <Ctrl+S>",
                 self.is_dirty.then_some(Message::Save)
             ),
             horizontal_space(Length::Fill),
